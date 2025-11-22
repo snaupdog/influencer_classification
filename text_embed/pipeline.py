@@ -44,28 +44,27 @@ def clean_comment(text):
     # Remove mentions and hashtags
     text = re.sub(r"[#@]\w+", "", text)
     text = remove_emojis(text)
-    # Keep all language characters (avoid stripping Korean etc.)
+    # Keep all language characters
     text = re.sub(r"[^\w\s\u0080-\uFFFF]", "", text)
     text = re.sub(r"\s+", " ", text).strip()
     return text
 
 
 # -----------------------------
-# Step 2: Load Influencers.txt
+# Step 2: Load influencers CSV
 # -----------------------------
 def load_influencers(influencers_file):
     influencers = {}
     with open(influencers_file, "r", encoding="utf-8") as f:
-        for line in f:
-            parts = line.strip().split("\t")
-            if len(parts) >= 5:
-                name, category, followers, following, posts = parts[:5]
-                influencers[name.lower()] = {
-                    "category": category,
-                    "followers": followers,
-                    "following": following,
-                    "posts": posts,
-                }
+        reader = csv.DictReader(f)
+        for row in reader:
+            name = row["Username"].strip().lower()
+            influencers[name] = {
+                "category": row.get("Category", "unknown"),
+                "followers": row.get("Followers", "unknown"),
+                "following": row.get("Followees", "unknown"),
+                "posts": row.get("Posts", "unknown"),
+            }
     print(f"✅ Loaded {len(influencers)} influencers")
     return influencers
 
@@ -96,7 +95,7 @@ def extract_post_data(info_dir, influencers, output_csv):
                 continue
 
             info_path = os.path.join(root, filename)
-            influencer_name = filename.split("-")[0].lower()  # get influencer name
+            influencer_name = filename.split("-")[0].lower()
             try:
                 with open(info_path, "r", encoding="utf-8") as f:
                     data = json.load(f)
@@ -129,7 +128,7 @@ def extract_post_data(info_dir, influencers, output_csv):
                 else:
                     category = followers = following = posts = "unknown"
 
-                # image matching (same prefix)
+                # image matching
                 dir_path = os.path.dirname(info_path)
                 prefix = filename.replace(".info", "")
                 image_matches = [
@@ -173,7 +172,7 @@ def extract_post_data(info_dir, influencers, output_csv):
 # -----------------------------
 def run_pipeline(root_folder):
     info_dir = os.path.join(root_folder, "info")
-    influencers_file = os.path.join(root_folder, "influencers_17.txt")
+    influencers_file = os.path.join(root_folder, "influencers.csv")
     output_csv = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "processed_posts.csv"
     )
