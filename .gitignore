@@ -1,0 +1,11 @@
+actual_dataset/images
+actual_dataset/info
+
+actual_dataset/JSON-image_17.txt
+actual_dataset/influencers.txt
+
+dataset/images
+dataset/info
+
+gen_dataset/JSON-image_17.csv
+gen_dataset/influencers_17.csv
