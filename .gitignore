@@ -13,3 +13,5 @@ gen_dataset/influencers_17.csv
 image_embed/image_features
 image_embed/compressedPreprocessedImages
 combined_features/combined_feature_vectors
+
+troubleshoot/

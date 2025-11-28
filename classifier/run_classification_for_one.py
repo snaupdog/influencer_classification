@@ -72,7 +72,10 @@ def predict_influencer_category(feature_vector, model, class_names):
     }
 
 
-sample_file = "../combined_features/combined_feature_vectors/food/asassyspoon-1532724787418428619.npz"
+# sample_file = "../combined_features/combined_feature_vectors/food/asassyspoon-1532724787418428619.npz"
+sample_file = "../combined_features/combined_feature_vectors/food/_delighted-1603474282721474521.npz"
+sample_file = "../combined_features/combined_feature_vectors/fashion/byamyly-1472890065033144703.npz"
+
 # sample_file = "../../implementation/continuous_representation/combined_features/pet/igpups-1791427037346868330.npz"
 
 with np.load(sample_file, allow_pickle=True) as data:

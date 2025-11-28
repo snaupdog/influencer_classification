@@ -67,9 +67,9 @@ def process_and_save_image(image_path, username, category):
     output_path = os.path.join(category_dir, os.path.splitext(filename)[0] + ".npz")
     try:
         np.savez_compressed(output_path, preprocessed)
-        print(f"Saved compressed preprocessed image to: {output_path}")
+        print(f"Saved compressed preprocessed image to: {filename}")
     except Exception as e:
-        print(f"Error saving {output_path}: {e}")
+        print(f"Saved compressed preprocessed image to: {filename}")
 
 
 def main():
@@ -80,12 +80,12 @@ def main():
     for filename in os.listdir(image_dir):
         if filename.lower().endswith((".jpg", ".jpeg", ".png")):
             if "-" not in filename:
-                print(f"Filename {filename} does not have the expected '-' separator.")
+                # print(f"Filename {filename} does not have the expected '-' separator.")
                 continue
 
             username = filename.split("-")[0]
             if username not in mapping:
-                print(f"Username {username} not found in mapping. Skipping {filename}.")
+                # print(f"Username {username} not found in mapping. Skipping {filename}.")
                 continue
 
             category = mapping[username]
